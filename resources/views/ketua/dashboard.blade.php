@@ -10,7 +10,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="rounded-2xl p-6 shadow-sm" style="background-color: #DBE2EF;">
             <p class="text-sm font-medium" style="color: #3F72AF;">Total Warga</p>
-            <p class="text-3xl font-bold mt-1" style="color: #112D4E;">0</p>
+            <p class="text-3xl font-bold mt-1" style="color: #112D4E;">{{ $totalWarga }}</p>
             <p class="text-xs mt-2" style="color: #3F72AF;">Terdaftar di sistem</p>
         </div>
         <div class="rounded-2xl p-6 shadow-sm" style="background-color: #DBE2EF;">

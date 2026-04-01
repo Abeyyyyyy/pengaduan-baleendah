@@ -32,14 +32,14 @@
             {{-- Navigation --}}
             <nav class="flex-1 px-4 py-4 space-y-1">
                 @if(auth()->user()->role === 'ketua')
-                    <a href="{{ route('ketua.dashboard') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition
-                            {{ request()->routeIs('ketua.dashboard') ? 'text-white' : 'hover:bg-blue-800' }}"
+                    <a href="{{ route('ketua.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
                         style="{{ request()->routeIs('ketua.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📊 Dashboard
                     </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
-                        style="color: #DBE2EF;">
+                    <a href="{{ route('ketua.data-warga') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('ketua.data-warga') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         👥 Data Warga
                     </a>
                     <a href="#"
