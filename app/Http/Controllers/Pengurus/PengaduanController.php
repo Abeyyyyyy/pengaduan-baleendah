@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengurus;
 use App\Http\Controllers\Controller;
 use App\Models\Pengaduan;
 use Illuminate\Http\Request;
+use App\Notifications\StatusPengaduanNotification;
 
 class PengaduanController extends Controller
 {
@@ -15,10 +16,10 @@ class PengaduanController extends Controller
             ->get();
 
         $stats = [
-            'total'    => $pengaduans->count(),
+            'total' => $pengaduans->count(),
             'menunggu' => $pengaduans->where('status', 'menunggu')->count(),
             'diproses' => $pengaduans->where('status', 'diproses')->count(),
-            'selesai'  => $pengaduans->where('status', 'selesai')->count(),
+            'selesai' => $pengaduans->where('status', 'selesai')->count(),
         ];
 
         return view('pengurus.pengaduan.index', compact('pengaduans', 'stats'));
@@ -33,16 +34,20 @@ class PengaduanController extends Controller
     public function updateStatus(Request $request, Pengaduan $pengaduan)
     {
         $request->validate([
-            'status'           => 'required|in:menunggu,diproses,selesai,ditolak',
+            'status' => 'required|in:menunggu,diproses,selesai,ditolak',
             'catatan_pengurus' => 'nullable|string|max:500',
         ]);
 
         $pengaduan->update([
-            'status'           => $request->status,
+            'status' => $request->status,
             'catatan_pengurus' => $request->catatan_pengurus,
         ]);
 
-        return redirect()->route('pengurus.pengaduan.show', $pengaduan)
+        // Kirim notifikasi ke warga
+        $pengaduan->user->notify(new StatusPengaduanNotification($pengaduan));
+
+        $role = auth()->user()->role;
+        return redirect()->route($role . '.pengaduan.show', $pengaduan)
             ->with('success', 'Status pengaduan berhasil diperbarui!');
     }
 }
