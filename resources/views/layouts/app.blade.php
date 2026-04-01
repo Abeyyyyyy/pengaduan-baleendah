@@ -1,36 +1,117 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title ?? 'Pengaduan Baleendah' }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="font-sans antialiased" style="background-color: #F9F7F7;">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    {{-- Sidebar --}}
+    <div class="flex min-h-screen">
+        <aside class="w-64 min-h-screen flex flex-col" style="background-color: #112D4E;">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+            {{-- Logo --}}
+            <div class="px-6 py-6 border-b border-blue-800">
+                <h1 class="text-white font-bold text-lg leading-tight">🏘️ RT Baleendah</h1>
+                <p class="text-xs mt-1" style="color: #DBE2EF;">Sistem Pengaduan Warga</p>
+            </div>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+            {{-- User Info --}}
+            <div class="px-6 py-4 border-b border-blue-800">
+                <p class="text-white font-semibold text-sm">{{ auth()->user()->name }}</p>
+                <span class="text-xs px-2 py-0.5 rounded-full font-medium capitalize"
+                    style="background-color: #3F72AF; color: #F9F7F7;">
+                    {{ auth()->user()->role }}
+                </span>
+            </div>
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            {{-- Navigation --}}
+            <nav class="flex-1 px-4 py-4 space-y-1">
+                @if(auth()->user()->role === 'ketua')
+                    <a href="{{ route('ketua.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition
+                        {{ request()->routeIs('ketua.dashboard') ? 'text-white' : 'hover:bg-blue-800' }}"
+                        style="{{ request()->routeIs('ketua.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        📊 Dashboard
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        👥 Data Warga
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        📋 Pengaduan
+                    </a>
+                @endif
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+                @if(auth()->user()->role === 'wakil')
+                    <a href="{{ route('wakil.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('wakil.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        📊 Dashboard
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        📋 Pengaduan
+                    </a>
+                @endif
+
+                @if(auth()->user()->role === 'bendahara')
+                    <a href="{{ route('bendahara.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('bendahara.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        📊 Dashboard
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        💰 Keuangan
+                    </a>
+                @endif
+
+                @if(auth()->user()->role === 'sekretaris')
+                    <a href="{{ route('sekretaris.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('sekretaris.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        📊 Dashboard
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        📋 Pengaduan
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        📢 Pengumuman
+                    </a>
+                @endif
+            </nav>
+
+            {{-- Logout --}}
+            <div class="px-4 py-4 border-t border-blue-800">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-red-800"
+                        style="color: #DBE2EF;">
+                        🚪 Logout
+                    </button>
+                </form>
+            </div>
+
+        </aside>
+
+        {{-- Main Content --}}
+        <main class="flex-1 p-8">
+            {{ $slot }}
+        </main>
+    </div>
+
+</body>
 </html>
