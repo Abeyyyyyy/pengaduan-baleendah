@@ -42,9 +42,9 @@
                         style="{{ request()->routeIs('ketua.data-warga') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         👥 Data Warga
                     </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
-                        style="color: #DBE2EF;">
+                    <a href="{{ route('ketua.pengaduan.index') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('ketua.pengaduan.*') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📋 Pengaduan
                     </a>
                 @endif
@@ -55,9 +55,9 @@
                         style="{{ request()->routeIs('wakil.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📊 Dashboard
                     </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
-                        style="color: #DBE2EF;">
+                    <a href="{{ route('wakil.pengaduan.index') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('wakil.pengaduan.*') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📋 Pengaduan
                     </a>
                 @endif
@@ -81,9 +81,9 @@
                         style="{{ request()->routeIs('sekretaris.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📊 Dashboard
                     </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
-                        style="color: #DBE2EF;">
+                    <a href="{{ route('sekretaris.pengaduan.index') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('sekretaris.pengaduan.*') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📋 Pengaduan
                     </a>
                     <a href="#"
@@ -99,10 +99,10 @@
                         style="{{ request()->routeIs('warga.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📊 Dashboard
                     </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
-                        style="color: #DBE2EF;">
-                        📢 Buat Pengaduan
+                    <a href="{{ route('warga.pengaduan.index') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('warga.pengaduan.*') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        📢 Pengaduan Saya
                     </a>
                     <a href="#"
                         class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
