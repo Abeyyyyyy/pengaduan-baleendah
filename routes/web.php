@@ -2,9 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\WargaRegisterController;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        $role = auth()->user()->role;
+        $route = match($role) {
+            'ketua'      => 'ketua.dashboard',
+            'wakil'      => 'wakil.dashboard',
+            'bendahara'  => 'bendahara.dashboard',
+            'sekretaris' => 'sekretaris.dashboard',
+            default      => 'warga.dashboard',
+        };
+        return redirect()->route($route);
+    }
+    return redirect()->route('login');
 });
 
 // Auth Routes
@@ -40,4 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::middleware('checkRole:warga')->group(function () {
         Route::get('/warga/dashboard', fn() => view('warga.dashboard'))->name('warga.dashboard');
     });
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+
+    // Register Warga
+    Route::get('register', [WargaRegisterController::class, 'create'])->name('register');
+    Route::post('register', [WargaRegisterController::class, 'store']);
 });

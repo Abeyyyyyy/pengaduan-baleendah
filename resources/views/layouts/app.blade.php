@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Pengaduan Baleendah' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="font-sans antialiased" style="background-color: #F9F7F7;">
 
     {{-- Sidebar --}}
@@ -30,9 +32,8 @@
             {{-- Navigation --}}
             <nav class="flex-1 px-4 py-4 space-y-1">
                 @if(auth()->user()->role === 'ketua')
-                    <a href="{{ route('ketua.dashboard') }}"
-                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition
-                        {{ request()->routeIs('ketua.dashboard') ? 'text-white' : 'hover:bg-blue-800' }}"
+                    <a href="{{ route('ketua.dashboard') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition
+                            {{ request()->routeIs('ketua.dashboard') ? 'text-white' : 'hover:bg-blue-800' }}"
                         style="{{ request()->routeIs('ketua.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📊 Dashboard
                     </a>
@@ -91,6 +92,24 @@
                         📢 Pengumuman
                     </a>
                 @endif
+
+                @if(auth()->user()->role === 'warga')
+                    <a href="{{ route('warga.dashboard') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('warga.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        📊 Dashboard
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        📢 Buat Pengaduan
+                    </a>
+                    <a href="#"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
+                        style="color: #DBE2EF;">
+                        📋 Pengumuman
+                    </a>
+                @endif
             </nav>
 
             {{-- Logout --}}
@@ -114,4 +133,5 @@
     </div>
 
 </body>
+
 </html>
