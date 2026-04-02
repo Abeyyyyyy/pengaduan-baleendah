@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Pengaduan;
 use App\Http\Controllers\Bendahara\KeuanganController;
 
+
 // Root redirect
 Route::get('/', function () {
     if (auth()->check()) {
@@ -52,13 +53,25 @@ Route::middleware('auth')->group(function () {
         Route::put('/ketua/pengaduan/{pengaduan}/status', [PengurusPengaduanController::class, 'updateStatus'])->name('ketua.pengaduan.status');
     });
 
+    // Ketua bisa lihat keuangan (read only)
+    Route::get('/ketua/keuangan', function () {
+        $bulan = request('bulan') ?? now()->format('Y-m');
+        $transaksis = \App\Models\Keuangan::whereRaw("DATE_FORMAT(tanggal, '%Y-%m') = ?", [$bulan])
+            ->orderBy('tanggal', 'desc')->get();
+        $pemasukan = $transaksis->where('jenis', 'pemasukan')->sum('jumlah');
+        $pengeluaran = $transaksis->where('jenis', 'pengeluaran')->sum('jumlah');
+        $saldo = $pemasukan - $pengeluaran;
+        return view('ketua.keuangan', compact('transaksis', 'pemasukan', 'pengeluaran', 'saldo', 'bulan'));
+    })->name('ketua.keuangan');
+
     // Wakil RT only
     Route::middleware('checkRole:wakil')->group(function () {
-        Route::get('/wakil/dashboard', fn() => view('wakil.dashboard'))->name('wakil.dashboard');
-        Route::get('/wakil/pengaduan', [PengurusPengaduanController::class, 'index'])->name('wakil.pengaduan.index');
-        Route::get('/wakil/pengaduan/{pengaduan}', [PengurusPengaduanController::class, 'show'])->name('wakil.pengaduan.show');
-        Route::put('/wakil/pengaduan/{pengaduan}/status', [PengurusPengaduanController::class, 'updateStatus'])->name('wakil.pengaduan.status');
-    });
+    Route::get('/wakil/dashboard', fn() => view('wakil.dashboard'))->name('wakil.dashboard');
+    Route::get('/wakil/data-warga', [WargaController::class, 'index'])->name('wakil.data-warga');
+    Route::get('/wakil/pengaduan', [PengurusPengaduanController::class, 'index'])->name('wakil.pengaduan.index');
+    Route::get('/wakil/pengaduan/{pengaduan}', [PengurusPengaduanController::class, 'show'])->name('wakil.pengaduan.show');
+    Route::put('/wakil/pengaduan/{pengaduan}/status', [PengurusPengaduanController::class, 'updateStatus'])->name('wakil.pengaduan.status');
+});
 
 
 

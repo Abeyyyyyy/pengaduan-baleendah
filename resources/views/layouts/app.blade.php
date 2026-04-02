@@ -47,6 +47,11 @@
                         style="{{ request()->routeIs('ketua.pengaduan.*') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📋 Pengaduan
                     </a>
+                    <a href="{{ route('ketua.keuangan') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('ketua.keuangan') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        💰 Laporan Keuangan
+                    </a>
                 @endif
 
                 @if(auth()->user()->role === 'wakil')
@@ -54,6 +59,11 @@
                         class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
                         style="{{ request()->routeIs('wakil.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📊 Dashboard
+                    </a>
+                    <a href="{{ route('wakil.data-warga') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('wakil.data-warga') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
+                        👥 Data Warga
                     </a>
                     <a href="{{ route('wakil.pengaduan.index') }}"
                         class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
