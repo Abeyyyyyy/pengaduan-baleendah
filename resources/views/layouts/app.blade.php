@@ -68,9 +68,9 @@
                         style="{{ request()->routeIs('bendahara.dashboard') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         📊 Dashboard
                     </a>
-                    <a href="#"
-                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition hover:bg-blue-800"
-                        style="color: #DBE2EF;">
+                    <a href="{{ route('bendahara.keuangan.index') }}"
+                        class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+                        style="{{ request()->routeIs('bendahara.keuangan.*') ? 'background-color: #3F72AF; color: #F9F7F7;' : 'color: #DBE2EF;' }}">
                         💰 Keuangan
                     </a>
                 @endif

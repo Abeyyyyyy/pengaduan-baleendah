@@ -9,17 +9,23 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="rounded-2xl p-6 shadow-sm" style="background-color: #DBE2EF;">
             <p class="text-sm font-medium" style="color: #3F72AF;">Total Pemasukan</p>
-            <p class="text-3xl font-bold mt-1" style="color: #112D4E;">Rp 0</p>
-            <p class="text-xs mt-2" style="color: #3F72AF;">Bulan ini</p>
+            <p class="text-2xl font-bold mt-1" style="color: #10B981;">
+                Rp {{ number_format($pemasukan, 0, ',', '.') }}
+            </p>
+            <p class="text-xs mt-2" style="color: #3F72AF;">Semua waktu</p>
         </div>
         <div class="rounded-2xl p-6 shadow-sm" style="background-color: #DBE2EF;">
             <p class="text-sm font-medium" style="color: #3F72AF;">Total Pengeluaran</p>
-            <p class="text-3xl font-bold mt-1" style="color: #112D4E;">Rp 0</p>
-            <p class="text-xs mt-2" style="color: #3F72AF;">Bulan ini</p>
+            <p class="text-2xl font-bold mt-1" style="color: #EF4444;">
+                Rp {{ number_format($pengeluaran, 0, ',', '.') }}
+            </p>
+            <p class="text-xs mt-2" style="color: #3F72AF;">Semua waktu</p>
         </div>
         <div class="rounded-2xl p-6 shadow-sm" style="background-color: #DBE2EF;">
             <p class="text-sm font-medium" style="color: #3F72AF;">Saldo Kas</p>
-            <p class="text-3xl font-bold mt-1" style="color: #112D4E;">Rp 0</p>
+            <p class="text-2xl font-bold mt-1" style="color: #112D4E;">
+                Rp {{ number_format($saldo, 0, ',', '.') }}
+            </p>
             <p class="text-xs mt-2" style="color: #3F72AF;">Saat ini</p>
         </div>
     </div>

@@ -8,17 +8,18 @@ use App\Http\Controllers\Warga\PengaduanController as WargaPengaduanController;
 use App\Http\Controllers\Pengurus\PengaduanController as PengurusPengaduanController;
 use App\Models\User;
 use App\Models\Pengaduan;
+use App\Http\Controllers\Bendahara\KeuanganController;
 
 // Root redirect
 Route::get('/', function () {
     if (auth()->check()) {
         $role = auth()->user()->role;
         $route = match ($role) {
-            'ketua'      => 'ketua.dashboard',
-            'wakil'      => 'wakil.dashboard',
-            'bendahara'  => 'bendahara.dashboard',
+            'ketua' => 'ketua.dashboard',
+            'wakil' => 'wakil.dashboard',
+            'bendahara' => 'bendahara.dashboard',
             'sekretaris' => 'sekretaris.dashboard',
-            default      => 'warga.dashboard',
+            default => 'warga.dashboard',
         };
         return redirect()->route($route);
     }
@@ -40,9 +41,9 @@ Route::middleware('auth')->group(function () {
     // Ketua RT only
     Route::middleware('checkRole:ketua')->group(function () {
         Route::get('/ketua/dashboard', function () {
-            $totalWarga    = User::where('role', 'warga')->count();
+            $totalWarga = User::where('role', 'warga')->count();
             $totalPengaduan = Pengaduan::count();
-            $selesai       = Pengaduan::where('status', 'selesai')->count();
+            $selesai = Pengaduan::where('status', 'selesai')->count();
             return view('ketua.dashboard', compact('totalWarga', 'totalPengaduan', 'selesai'));
         })->name('ketua.dashboard');
         Route::get('/ketua/data-warga', [WargaController::class, 'index'])->name('ketua.data-warga');
@@ -59,9 +60,21 @@ Route::middleware('auth')->group(function () {
         Route::put('/wakil/pengaduan/{pengaduan}/status', [PengurusPengaduanController::class, 'updateStatus'])->name('wakil.pengaduan.status');
     });
 
+
+
     // Bendahara only
     Route::middleware('checkRole:bendahara')->group(function () {
-        Route::get('/bendahara/dashboard', fn() => view('bendahara.dashboard'))->name('bendahara.dashboard');
+        Route::get('/bendahara/dashboard', function () {
+            $pemasukan = \App\Models\Keuangan::where('jenis', 'pemasukan')->sum('jumlah');
+            $pengeluaran = \App\Models\Keuangan::where('jenis', 'pengeluaran')->sum('jumlah');
+            $saldo = $pemasukan - $pengeluaran;
+            return view('bendahara.dashboard', compact('pemasukan', 'pengeluaran', 'saldo'));
+        })->name('bendahara.dashboard');
+
+        Route::get('/bendahara/keuangan', [KeuanganController::class, 'index'])->name('bendahara.keuangan.index');
+        Route::get('/bendahara/keuangan/create', [KeuanganController::class, 'create'])->name('bendahara.keuangan.create');
+        Route::post('/bendahara/keuangan', [KeuanganController::class, 'store'])->name('bendahara.keuangan.store');
+        Route::delete('/bendahara/keuangan/{keuangan}', [KeuanganController::class, 'destroy'])->name('bendahara.keuangan.destroy');
     });
 
     // Sekretaris only
